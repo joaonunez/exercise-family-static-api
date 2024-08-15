@@ -50,14 +50,20 @@ def add_member():
         if not isinstance(member_data.get("first_name"), str) or not isinstance(member_data.get("age"), int):
              return jsonify({"error": "Datos incorrectos"}), 400
         jackson_family.add_member(member_data)
-        return jsonify({"mensaje"}, "miembro correctamente agregado"), 200
+        return jsonify({"mensaje": "miembro correctamente agregado"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
 
 
-
-
+#eliminar miembro:
+@app.route('/member/<int:member_id>', methods=['DELETE'])
+def delete_member(member_id):
+    result = jackson_family.delete_member(member_id)
+    if result:
+        return jsonify({"done": True}), 200
+    else:
+        return jsonify({"error": "Miembro no encontrado"}), 404
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
