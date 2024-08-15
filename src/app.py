@@ -26,10 +26,20 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/members', methods=['GET'])
+#obtener todos los miembros
 def get_to_all_members():
     members = jackson_family.get_all_members()
     return jsonify(members), 200
 
+
+#obtener un miembro
+@app.route('/member/<int:member_id>', methods=['GET'])
+def get_one_member(member_id):
+    member = jackson_family.get_member(member_id)
+    if member:
+        return jsonify(member), 200
+    else:
+        return jsonify({"Mensaje": "Miembro no encontrado"}), 404
 
 
 
